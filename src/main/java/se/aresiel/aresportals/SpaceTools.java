@@ -11,12 +11,27 @@ public class SpaceTools {
             case DOWN:
                 return new Vec3d(0, 1, 0);
             case EAST:
-                return new Vec3d(-1, 0, 0);
-            case WEST:
                 return new Vec3d(1, 0, 0);
+            case WEST:
+                return new Vec3d(-1, 0, 0);
             case NORTH:
                 return new Vec3d(0, 0, -1);
             case SOUTH:
+                return new Vec3d(0, 0, 1);
+            default:
+                throw new NullPointerException();
+        }
+    }
+
+    public static Vec3d getPerpendicularDirectionVec3d(Direction direction) {
+        switch (direction) {
+            case SOUTH:
+                return new Vec3d(1, 0, 0);
+            case NORTH:
+                return new Vec3d(-1, 0, 0);
+            case EAST:
+                return new Vec3d(0, 0, -1);
+            case WEST:
                 return new Vec3d(0, 0, 1);
             default:
                 throw new NullPointerException();

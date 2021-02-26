@@ -8,9 +8,9 @@ import net.minecraft.util.registry.Registry;
 
 public class ModItems {
 
-    public static final Item WAND = new WandItem(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1));
+    public static final Item CORRIDOR_WAND = new CorridorWandItem(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1), 20);
 
     public static void registerItems(){
-        Registry.register(Registry.ITEM, new Identifier("aresportals", "wand"), WAND);
+        Registry.register(Registry.ITEM, new Identifier("aresportals", "corridor_wand"), CORRIDOR_WAND);
     }
 }
