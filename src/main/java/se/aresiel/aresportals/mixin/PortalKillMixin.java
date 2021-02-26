@@ -23,7 +23,7 @@ public abstract class PortalKillMixin extends Entity {
 
         Entity portalEntity = (Entity) this;
 
-        if(portalEntity.getCustomName().asString().equals("AresielTemporaryPortal200") && portalEntity.age >= 200){
+        if(portalEntity.getCustomName() != null && portalEntity.getCustomName().asString().equals("AresielTemporaryPortal200") && portalEntity.age >= 200){
             portalEntity.kill();
         }
     }
