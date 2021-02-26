@@ -21,7 +21,9 @@
       "se.aresiel.aresportals.AresPortals"
     ]
   },
-  "mixins": [],
+  "mixins": [
+    "aresportals.mixins.json"
+  ],
 
   "depends": {
     "fabricloader": ">=0.7.4",

@@ -1,15 +1,20 @@
 package se.aresiel.aresportals;
 
 import com.qouteall.immersive_portals.McHelper;
+import com.qouteall.immersive_portals.ModMain;
+import com.qouteall.immersive_portals.my_util.MyTaskList;
 import com.qouteall.immersive_portals.portal.Portal;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.BlockHitResult;
@@ -50,28 +55,73 @@ public class CorridorWandItem extends Item {
                 if(!world.isClient()){
                     ServerWorld serverWorld = McHelper.getServerWorld(playerEntity.world.getRegistryKey());
 
-                    Portal portal = Portal.entityType.create(serverWorld);
-
                     Vec3d sideDir = SpaceTools.getDirectionVec3d(blockHit.getSide());
                     Vec3d perpSideDir = SpaceTools.getPerpendicularDirectionVec3d(blockHit.getSide());
 
                     Vec3d origin = new Vec3d(blockPos.getX(), blockPos.getY(), blockPos.getZ()).add(0.5,0,0.5).add(sideDir.multiply(0.51));
+                    Vec3d destination = null;
 
-                    /*for(int i = 1; i <= range; i++){ //Testing for empty space
-                        BlockPos topBlockPos = blockPos.add(new Vec3i(sideDir.multiply(i)));
-                    }*/
 
-                    portal.setOriginPos(origin);
-                    portal.setDestinationDimension(playerEntity.getEntityWorld().getRegistryKey());
-                    portal.setDestination(playerEntity.getPos().add(0,1,0));
-                    portal.setOrientationAndSize(
-                            perpSideDir,
-                            new Vec3d(0,1,0),
-                            1,2
-                    );
-                    portal.world.spawnEntity(portal);
+                    for(int i = 1; i <= range; i++){ //Testing for empty space
+                        Vec3d offset = sideDir.multiply(-i);
+                        BlockPos topBlockPos = blockPos.add(offset.x,offset.y, offset.z);
+                        BlockPos bottomBlockPos = blockPos.add(offset.x,offset.y-1, offset.z);
 
-                    success = true;
+                        BlockState topBlockState = client.world.getBlockState(topBlockPos);
+                        BlockState bottomBlockState = client.world.getBlockState(bottomBlockPos);
+
+                        if(topBlockState.isAir() && bottomBlockState.isAir()){
+
+                            destination = new Vec3d(topBlockPos.getX(), topBlockPos.getY(), topBlockPos.getZ()).add(0.5, 0, 0.5);
+
+                            break;
+                        }
+                    }
+
+                    if(destination != null){
+                        Portal startPortal = Portal.entityType.create(serverWorld);
+                        Portal endPortal = Portal.entityType.create(serverWorld);
+
+                        startPortal.setOriginPos(origin);
+                        startPortal.setDestinationDimension(playerEntity.getEntityWorld().getRegistryKey());
+                        startPortal.setDestination(destination);
+                        startPortal.setOrientationAndSize(
+                                perpSideDir,
+                                new Vec3d(0,1,0),
+                                1,2
+                        );
+
+                        endPortal.setOriginPos(destination.add(sideDir.multiply(0.49)));
+                        endPortal.setDestinationDimension(playerEntity.getEntityWorld().getRegistryKey());
+                        endPortal.setDestination(origin);
+                        endPortal.setOrientationAndSize(
+                                perpSideDir.multiply(-1),
+                                new Vec3d(0,1,0),
+                                1,2
+                        );
+
+                        startPortal.world.spawnEntity(startPortal);
+                        endPortal.world.spawnEntity(endPortal);
+
+                        Entity startPortalEntity = McHelper.getServerWorld(startPortal.world.getRegistryKey()).getEntity(startPortal.getUuid());
+                        Entity endPortalEntity = McHelper.getServerWorld(endPortal.world.getRegistryKey()).getEntity(endPortal.getUuid());
+
+                        startPortalEntity.setCustomName(new LiteralText("AresielTemporaryPortal200"));
+                        endPortalEntity.setCustomName(new LiteralText("AresielTemporaryPortal200"));
+
+
+                        ModMain.serverTaskList.addTask(MyTaskList.withDelay(200, MyTaskList.oneShotTask(() -> {
+                            startPortalEntity.kill();
+                            endPortalEntity.kill();
+                        })));
+
+                        success = true;
+                    } else {
+                        success = false;
+                    }
+
+
+
                 } else {
                     success = true;
                 }

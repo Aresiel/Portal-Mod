@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "se.aresiel.aresportals.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "PortalKillMixin"
+  ],
+  "client": [],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
