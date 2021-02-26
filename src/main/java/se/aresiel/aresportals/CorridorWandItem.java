@@ -51,7 +51,7 @@ public class CorridorWandItem extends Item {
                 Vec3d sideDir = SpaceTools.getDirectionVec3d(blockHit.getSide());
                 Vec3d perpSideDir = SpaceTools.getPerpendicularDirectionVec3d(blockHit.getSide());
 
-                Vec3d origin = new Vec3d(blockPos.getX(), blockPos.getY(), blockPos.getZ()).add(0.5, 0, 0.5).add(sideDir.multiply(0.51));
+                Vec3d origin = new Vec3d(blockPos.getX(), blockPos.getY(), blockPos.getZ()).add(0.5, 0, 0.5).add(sideDir.multiply(0.501));
                 Vec3d destination = null;
 
 
@@ -65,7 +65,7 @@ public class CorridorWandItem extends Item {
 
                     if (topBlockState.isAir() && bottomBlockState.isAir()) {
 
-                        destination = new Vec3d(topBlockPos.getX(), topBlockPos.getY(), topBlockPos.getZ()).add(0.5, 0, 0.5).add(sideDir.multiply(0.5));
+                        destination = new Vec3d(topBlockPos.getX(), topBlockPos.getY(), topBlockPos.getZ()).add(0.5, 0, 0.5).add(sideDir.multiply(0.499));
 
                         break;
                     }
@@ -85,7 +85,7 @@ public class CorridorWandItem extends Item {
                                 1, 2
                         );
 
-                        endPortal.setOriginPos(destination.add(sideDir.multiply(-0.01)));
+                        endPortal.setOriginPos(destination.add(sideDir.multiply(-0.001)));
                         endPortal.setDestinationDimension(playerEntity.getEntityWorld().getRegistryKey());
                         endPortal.setDestination(origin);
                         endPortal.setOrientationAndSize(
