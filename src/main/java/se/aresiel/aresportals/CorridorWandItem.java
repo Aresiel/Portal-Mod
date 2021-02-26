@@ -23,7 +23,7 @@ import net.minecraft.world.World;
 
 public class CorridorWandItem extends Item {
 
-    public int range;
+    private final int range;
 
     public CorridorWandItem(Settings settings, int range) {
         super(settings);
@@ -41,8 +41,6 @@ public class CorridorWandItem extends Item {
         if (hit.getType() == HitResult.Type.BLOCK) {
             BlockHitResult blockHit = (BlockHitResult) hit;
             BlockPos blockPos = blockHit.getBlockPos();
-            BlockState blockState = client.world.getBlockState(blockPos);
-            Block block = blockState.getBlock();
 
             BlockPos belowBlockPos = blockPos.add(0, -1, 0);
             BlockState belowBlockState = client.world.getBlockState(belowBlockPos);
@@ -67,7 +65,7 @@ public class CorridorWandItem extends Item {
 
                     if (topBlockState.isAir() && bottomBlockState.isAir()) {
 
-                        destination = new Vec3d(topBlockPos.getX(), topBlockPos.getY(), topBlockPos.getZ()).add(0.5, 0, 0.5);
+                        destination = new Vec3d(topBlockPos.getX(), topBlockPos.getY(), topBlockPos.getZ()).add(0.5, 0, 0.5).add(sideDir.multiply(0.5));
 
                         break;
                     }
@@ -87,7 +85,7 @@ public class CorridorWandItem extends Item {
                                 1, 2
                         );
 
-                        endPortal.setOriginPos(destination.add(sideDir.multiply(0.49)));
+                        endPortal.setOriginPos(destination.add(sideDir.multiply(-0.01)));
                         endPortal.setDestinationDimension(playerEntity.getEntityWorld().getRegistryKey());
                         endPortal.setDestination(origin);
                         endPortal.setOrientationAndSize(
