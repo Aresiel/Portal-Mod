@@ -11,20 +11,21 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import se.aresiel.aresportals.MyComponents;
 
 @Mixin(Portal.class)
-public abstract class PortalKillMixin extends Entity {
+public abstract class PortalKillMixin extends Entity{
+
     public PortalKillMixin(EntityType<?> type, World world) {
         super(type, world);
     }
 
     @Inject(at = @At("TAIL"), method = "tick")
     private void init(CallbackInfo info){
+        int maxAge = MyComponents.getPortalMaxAge(this);
 
-        Entity portalEntity = (Entity) this;
-
-        if(portalEntity.getCustomName() != null && portalEntity.getCustomName().asString().equals("AresielTemporaryPortal200") && portalEntity.age >= 200){
-            portalEntity.kill();
+        if(this.age > maxAge && maxAge != -1){
+            this.kill();
         }
     }
 }

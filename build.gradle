@@ -20,6 +20,11 @@ repositories {
 		name = "Jitpack"
 		url = 'https://jitpack.io'
 	}
+
+	maven {
+		name = "Ladysnake Mods"
+		url = 'https://ladysnake.jfrog.io/artifactory/mods'
+	}
 }
 
 dependencies {
@@ -34,8 +39,17 @@ dependencies {
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
 
+	//Immersive Portals Core
 	modImplementation "com.github.qouteall.ImmersivePortalsMod:imm_ptl_core:${project.ip_version}"
 	include "com.github.qouteall.ImmersivePortalsMod:imm_ptl_core:${project.ip_version}"
+
+	//Cardinal Components Api (Base, Util, Entity)
+	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:2.7.12"
+	include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:2.7.12"
+	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-util:2.7.12"
+	include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-util:2.7.12"
+	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:2.7.12"
+	include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:2.7.12"
 }
 
 processResources {
@@ -97,6 +111,9 @@ publishing {
         // retrieving dependencies.
 		maven {
 			url = 'https://jitpack.io'
+		}
+		maven {
+			url = 'https://ladysnake.jfrog.io/artifactory/mods'
 		}
     }
 }

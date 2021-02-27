@@ -19,6 +19,9 @@
   "entrypoints": {
     "main": [
       "se.aresiel.aresportals.AresPortals"
+    ],
+    "cardinal-components-entity": [
+      "se.aresiel.aresportals.MyComponents"
     ]
   },
   "mixins": [
@@ -30,7 +33,10 @@
     "fabric": "*",
     "minecraft": "1.16.x"
   },
-  "suggests": {
-    "another-mod": "*"
+  "custom": {
+    "cardinal-components": [
+      "aresportals:corridorportals"
+    ]
   }
+
 }

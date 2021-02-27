@@ -8,7 +8,7 @@ import net.minecraft.util.registry.Registry;
 
 public class ModItems {
 
-    public static final Item CORRIDOR_WAND = new CorridorWandItem(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1), 20);
+    public static final Item CORRIDOR_WAND = new CorridorWandItem(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1), 20, 200);
     public static final Item PORTAL_WAND = new PortalWandItem(new FabricItemSettings().group(ItemGroup.TOOLS).maxCount(1), 100);
 
     public static void registerItems(){

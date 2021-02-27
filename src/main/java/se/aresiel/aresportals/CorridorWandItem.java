@@ -24,10 +24,12 @@ import net.minecraft.world.World;
 public class CorridorWandItem extends Item {
 
     private final int range;
+    private final int duration;
 
-    public CorridorWandItem(Settings settings, int range) {
+    public CorridorWandItem(Settings settings, int range, int duration) {
         super(settings);
         this.range = range;
+        this.duration = duration;
     }
 
     @Override
@@ -97,11 +99,8 @@ public class CorridorWandItem extends Item {
                         startPortal.world.spawnEntity(startPortal);
                         endPortal.world.spawnEntity(endPortal);
 
-                        Entity startPortalEntity = McHelper.getServerWorld(startPortal.world.getRegistryKey()).getEntity(startPortal.getUuid());
-                        Entity endPortalEntity = McHelper.getServerWorld(endPortal.world.getRegistryKey()).getEntity(endPortal.getUuid());
-
-                        startPortalEntity.setCustomName(new LiteralText("AresielTemporaryPortal200"));
-                        endPortalEntity.setCustomName(new LiteralText("AresielTemporaryPortal200"));
+                        MyComponents.setPortalMaxAge(startPortal, duration);
+                        MyComponents.setPortalMaxAge(endPortal, duration);
                     }
                     success = true;
                 } else {

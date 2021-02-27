@@ -50,12 +50,15 @@ public class PortalWandItem extends Item {
                 Vec3d destination = playerEntity.getPos().add(0, 1, 0);
                 RegistryKey<World> dimension = playerEntity.getEntityWorld().getRegistryKey();
 
+                Vec3d sideDir = SpaceTools.getDirectionVec3d(blockHitResult.getSide());
+                Vec3d playerFacing = SpaceTools.getPerpendicularDirectionVec3d(playerEntity.getHorizontalFacing());
+
                 Portal portal1 = Portal.entityType.create(serverWorld);
                 portal1.setOriginPos(origin);
                 portal1.setDestinationDimension(dimension);
                 portal1.setDestination(destination);
                 portal1.setOrientationAndSize(
-                        new Vec3d(1, 0, 0),
+                        playerFacing.multiply(-1),
                         new Vec3d(0, 1, 0),
                         1,
                         2
